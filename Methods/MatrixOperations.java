@@ -1,36 +1,47 @@
+import java.util.Random;
+import java.util.Scanner;
+
 public class MatrixOperations {
-    public static void main(String[] args) {
-        int[][] A = {{1, 2}, {3, 4}};
-        int[][] B = {{5, 6}, {7, 8}};
 
-        int[][] add = new int[2][2];
-        int[][] sub = new int[2][2];
-        int[][] mul = new int[2][2];
+    public static int[][] generateRandomMatrix(int rows, int cols) {
+        Random rand = new Random();
+        int[][] matrix = new int[rows][cols];
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                matrix[i][j] = rand.nextInt(10);
+        return matrix;
+    }
 
-        // Addition and Subtraction
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 2; j++) {
-                add[i][j] = A[i][j] + B[i][j];
-                sub[i][j] = A[i][j] - B[i][j];
-            }
-        }
+    public static int[][] addMatrices(int[][] A, int[][] B) {
+        int rows = A.length;
+        int cols = A[0].length;
+        int[][] result = new int[rows][cols];
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                result[i][j] = A[i][j] + B[i][j];
+        return result;
+    }
 
-        // Multiplication
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 2; j++) {
-                mul[i][j] = 0;
-                for (int k = 0; k < 2; k++) {
-                    mul[i][j] += A[i][k] * B[k][j];
-                }
-            }
-        }
+    public static int[][] subtractMatrices(int[][] A, int[][] B) {
+        int rows = A.length;
+        int cols = A[0].length;
+        int[][] result = new int[rows][cols];
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                result[i][j] = A[i][j] - B[i][j];
+        return result;
+    }
 
-        System.out.println("Addition:");
-        printMatrix(add);
-        System.out.println("Subtraction:");
-        printMatrix(sub);
-        System.out.println("Multiplication:");
-        printMatrix(mul);
+    public static int[][] multiplyMatrices(int[][] A, int[][] B) {
+        int rowsA = A.length;
+        int colsA = A[0].length;
+        int colsB = B[0].length;
+        int[][] result = new int[rowsA][colsB];
+        for (int i = 0; i < rowsA; i++)
+            for (int j = 0; j < colsB; j++)
+                for (int k = 0; k < colsA; k++)
+                    result[i][j] += A[i][k] * B[k][j];
+        return result;
     }
 
     public static void printMatrix(int[][] matrix) {
@@ -39,5 +50,37 @@ public class MatrixOperations {
                 System.out.print(val + " ");
             System.out.println();
         }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int rows, cols;
+        System.out.print("Enter number of rows: ");
+        rows = sc.nextInt();
+        System.out.print("Enter number of columns: ");
+        cols = sc.nextInt();
+
+        int[][] matrixA = generateRandomMatrix(rows, cols);
+        int[][] matrixB = generateRandomMatrix(rows, cols);
+
+        System.out.println("Matrix A:");
+        printMatrix(matrixA);
+        System.out.println("Matrix B:");
+        printMatrix(matrixB);
+
+        System.out.println("Addition (A + B):");
+        printMatrix(addMatrices(matrixA, matrixB));
+
+        System.out.println("Subtraction (A - B):");
+        printMatrix(subtractMatrices(matrixA, matrixB));
+
+        if (cols == rows) {
+            System.out.println("Multiplication (A * B):");
+            printMatrix(multiplyMatrices(matrixA, matrixB));
+        } else {
+            System.out.println("Multiplication not possible with given dimensions.");
+        }
+
+        sc.close();
     }
 }

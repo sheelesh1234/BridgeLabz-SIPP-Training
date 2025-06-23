@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 
 public class HandshakeCalculator {
@@ -8,7 +9,8 @@ public class HandshakeCalculator {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter number of students: ");
-        int n = sc.nextInt();
-        System.out.println("Maximum handshakes: " + calculateHandshakes(n));
+        int students = sc.nextInt();
+        int handshakes = calculateHandshakes(students);
+        System.out.println("Maximum number of handshakes: " + handshakes);
     }
 }
